@@ -1,8 +1,16 @@
 
-<ion-slides [options]="slideOpts">
+<ion-slides [options]="slideOpts" (ionSlideReachEnd)="cargarMasPeliculas()">
   <ion-slide *ngFor="let pelicula of peliculas">
     <ion-card class="slide-card">
       <img [src]=" pelicula.backdrop_path | imagen ">
     </ion-card>
   </ion-slide>
+
+  <ion-slide *ngIf="this.moviesSvc.dataCategories['feature'].loading" class="alide-loading">
+    <div>
+      <ion-spinner name="bubbles"></ion-spinner>
+      <p>Cargando...</p>
+    </div>
+  </ion-slide>
+  
 </ion-slides>

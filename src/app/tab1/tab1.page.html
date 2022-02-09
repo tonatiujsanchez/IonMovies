@@ -10,7 +10,7 @@
     </ion-row>
   </ion-grid>
 
-  <app-slideshow-backdrop [peliculas]="peliculasRecientes"></app-slideshow-backdrop>
+  <app-slideshow-backdrop [peliculas]="peliculasRecientes" (cargarMas)="cargarMas($event)"></app-slideshow-backdrop>
 
   <ion-grid fixed>
     <ion-row>
@@ -20,7 +20,7 @@
     </ion-row>
   </ion-grid>
 
-  <app-slideshow-poster [peliculas]="peliculasTendencia"></app-slideshow-poster>
+  <app-slideshow-poster [peliculas]="peliculasTendencia" categoria="trendign" (cargarMas)="cargarMas($event)"></app-slideshow-poster>
 
   <ion-grid fixed>
     <ion-row>
@@ -30,7 +30,7 @@
     </ion-row>
   </ion-grid>
   
-  <app-slideshow-pairs [peliculas]="peliculasPopulares" (cargarMas)="cargarMas()"></app-slideshow-pairs>
+  <app-slideshow-pairs [peliculas]="peliculasPopulares" (cargarMas)="cargarMas($event)"></app-slideshow-pairs>
 
   <ion-grid fixed>
     <ion-row>
@@ -40,6 +40,6 @@
     </ion-row>
   </ion-grid>
 
-  <app-slideshow-poster [peliculas]="peliculaProximamente"></app-slideshow-poster>
+  <app-slideshow-poster [peliculas]="peliculaProximamente" categoria="coming" (cargarMas)="cargarMas($event)"></app-slideshow-poster>
  
 </ion-content>

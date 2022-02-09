@@ -19,43 +19,96 @@ export class Tab1Page implements OnInit {
     freeMode: true
   };
 
-  constructor( private moviesSvs: MoviesService ) {}
+  constructor( private moviesSvc: MoviesService ) {}
 
   ngOnInit(): void {
-    this.moviesSvs.getFeature().subscribe(
-      ( resp ) => {
-        this.peliculasRecientes = resp.results;        
-      }
-    );
+
+    this.getFeature();
     this.getTrendign();
     this.getPopular();
     this.getUpComing();
   }
 
-  getTrendign(){
-    this.moviesSvs.getTrendign().subscribe(
-      ( { results } ) => this.peliculasTendencia = [ ...this.peliculasTendencia, ...results ]
+  getFeature(){
+    this.moviesSvc.getFeature().subscribe(
+      ( { results } ) => {
+        this.peliculasRecientes = [ ...this.peliculasRecientes, ...results ];
+        this.moviesSvc.dataCategories['feature'].loading = false;        
+      },
+      ( err )=> {
+        console.log('Hubo un error al obtener las películas', err.name);
+        this.moviesSvc.dataCategories['feature'].loading = false; 
+        this.moviesSvc.dataCategories['feature'].page--; 
+      }
     );
   }
 
+  getTrendign(){
+    this.moviesSvc.getTrendign().subscribe(
+      ( { results } ) => {
+        this.peliculasTendencia = [ ...this.peliculasTendencia, ...results ];
+        this.moviesSvc.dataCategories['trendign'].loading = false;
+      },
+      ( err )=> {
+        console.log('Hubo un error al obtener las películas', err.name);
+        this.moviesSvc.dataCategories['trendign'].loading = false; 
+        this.moviesSvc.dataCategories['trendign'].page--; 
+      }
+    )
+  }
+
   getPopular(){
-    this.moviesSvs.getPopular().subscribe(
+    this.moviesSvc.getPopular().subscribe(
       ( { results } ) => {
         this.peliculasPopulares = [ ...this.peliculasPopulares, ...results ];
-        this.moviesSvs.dataCategories['popular'].loading = false;
+        this.moviesSvc.dataCategories['popular'].loading = false;
+      },
+      ( err )=> {
+        console.log('Hubo un error al obtener las películas', err.name);
+        this.moviesSvc.dataCategories['popular'].loading = false; 
+        this.moviesSvc.dataCategories['popular'].page--;
       }
     );
   }
 
   getUpComing(){
-    this.moviesSvs.getUpComing().subscribe(
-      ({ results }) =>  this.peliculaProximamente = [ ...this.peliculaProximamente, ...results ]
+    this.moviesSvc.getUpComing().subscribe(
+      ({ results }) =>  {
+        this.peliculaProximamente = [ ...this.peliculaProximamente, ...results ];
+        this.moviesSvc.dataCategories['coming'].loading = false;
+      },
+      ( err )=> {
+        console.log('Hubo un error al obtener las películas', err.name);
+        this.moviesSvc.dataCategories['coming'].loading = false; 
+        this.moviesSvc.dataCategories['coming'].page--;
+      }
     );
   }
   
-  cargarMas(){
-    console.log( 'Cargando películas populares!!' );
-    this.getPopular();    
+  cargarMas( categoria ){
+
+    switch (categoria) {
+      case 'feature':
+        this.moviesSvc.dataCategories[categoria].loading = true;
+        this.getFeature();    
+        break;
+      case 'trendign':
+        this.moviesSvc.dataCategories[categoria].loading = true;
+        this.getTrendign();
+        break;
+      case 'popular':
+        this.moviesSvc.dataCategories[categoria].loading = true;
+        this.getPopular();    
+        break;
+      case 'coming':
+        this.moviesSvc.dataCategories[categoria].loading = true;
+        this.getUpComing();
+        break;
+    
+      default:
+        break;
+    }
+ 
   }
 
 }

@@ -14,19 +14,29 @@ const apiKey = environment.apiKey;
 export class MoviesService {
 
   public dataCategories = {
-    // business: {
+    // feature: {
     //   page: 0,
-    //   articles: []
+    //   loading: false
     // }
   }
 
-  private popularPage = 0;
-  public loading = false;
 
 
   constructor( private http: HttpClient ) { }
 
   getFeature(){
+
+    const categoria = 'feature';
+
+    if( !(Object.keys( this.dataCategories ).includes( categoria )) ){
+      this.dataCategories[categoria] = {
+        page: 0,
+        loading: false
+      }
+    }
+    this.dataCategories[categoria].page++;
+
+
 
     const hoy = new Date();
     const ultimoDia = new Date( hoy.getFullYear(), hoy.getMonth() + 1, 0 ).getDate();
@@ -37,48 +47,61 @@ export class MoviesService {
     const fechaInicial = `${ hoy.getFullYear() }-${ mesString }-01`;
     const fechaFinal = `${ hoy.getFullYear() }-${ mesString }-${ ultimoDia }`;    
   
-    return this.ejecutarQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${ fechaInicial }&primary_release_date.lte=${ fechaFinal }&`);  
+    return this.ejecutarQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${ fechaInicial }&primary_release_date.lte=${ fechaFinal }&page=${ this.dataCategories[categoria].page }&`);  
   }
 
+
+
   getTrendign(){
-    return this.ejecutarQuery<RespuestaMDB>(`/movie/now_playing?`);
+    const categoria = 'trendign';
+
+    if( !(Object.keys( this.dataCategories ).includes( categoria )) ){
+      this.dataCategories[categoria] = {
+        page: 0,
+        loading: false
+      }
+    }
+    this.dataCategories[categoria].page++;
+    return this.ejecutarQuery<RespuestaMDB>(`/movie/now_playing?page=${ this.dataCategories[categoria].page }&`);
   }
+
 
 
 
   getUpComing(){
-    if( !(Object.keys( this.dataCategories ).includes( 'coming' )) ){
-      this.dataCategories['coming'] = {
+
+    const categoria = 'coming';
+
+    if( !(Object.keys( this.dataCategories ).includes( categoria )) ){
+      this.dataCategories[categoria] = {
         page: 0,
-        articles: []
+        loading: false
       }
     }
-    this.dataCategories['coming'].page++;
+    this.dataCategories[categoria].page++;
 
-    return this.ejecutarQuery<RespuestaMDB>(`/movie/upcoming?page=${ this.dataCategories['coming'].page }&`);
+    return this.ejecutarQuery<RespuestaMDB>(`/movie/upcoming?page=${ this.dataCategories[categoria].page }&`);
   }
+
 
 
 
   getPopular(){
 
-    if( !(Object.keys( this.dataCategories ).includes( 'popular' )) ){
-      this.dataCategories['popular'] = {
+    const categoria = 'popular';
+
+    if( !(Object.keys( this.dataCategories ).includes( categoria )) ){
+      this.dataCategories[categoria] = {
         page: 0,
         loading: false
       }
     }
-    this.dataCategories['popular'].page++;
+    this.dataCategories[categoria].page++;
 
     
-    const query = `/discover/movie?sort_by=popularity.desc&page=${ this.dataCategories['popular'].page }&`;
+    const query = `/discover/movie?sort_by=popularity.desc&page=${ this.dataCategories[categoria].page }&`;
     
-    return this.ejecutarQuery<RespuestaMDB>( query )
-      .pipe(
-        tap( resp => {
-          return resp;
-        })
-      );
+    return this.ejecutarQuery<RespuestaMDB>( query );
   }
   
 

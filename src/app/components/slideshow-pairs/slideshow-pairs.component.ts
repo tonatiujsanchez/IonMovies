@@ -28,12 +28,12 @@ export class SlideshowPairsComponent implements OnInit {
 
   cargarMasPaliculas(){
 
-    if( this.moviesSvc.loading ){
+    if( this.moviesSvc.dataCategories['popular'].loading ){
       return;
     }
 
-    this.moviesSvc.dataCategories['popular'].loading = true;
-    this.cargarMas.emit();
+    // this.moviesSvc.dataCategories['popular'].loading = true;
+    this.cargarMas.emit('popular');
 
   }
 }

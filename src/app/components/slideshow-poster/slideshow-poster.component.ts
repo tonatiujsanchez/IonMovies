@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Pelicula } from '../../interfaces/interfaces';
+import { MoviesService } from '../../services/movies.service';
 
 @Component({
   selector: 'app-slideshow-poster',
@@ -14,12 +15,23 @@ export class SlideshowPosterComponent implements OnInit {
   };
 
   @Input() peliculas: Pelicula[] = [];
+  @Input() categoria = '';
 
-  constructor() { }
+  @Output() cargarMas: EventEmitter<string> = new EventEmitter();
+
+  get loading():boolean{
+    
+    return this.moviesSvc.dataCategories[this.categoria]?.loading
+  }
+
+  constructor( public moviesSvc: MoviesService  ) { }
 
   ngOnInit() {}
 
-  cargarMas(){
-    console.log('Estamos en la última!!!');
+  cargarMasPeliculas(){
+    if( this.moviesSvc.dataCategories[this.categoria].loading ){
+      return;
+    }
+    this.cargarMas.emit(this.categoria);
   }
 }
