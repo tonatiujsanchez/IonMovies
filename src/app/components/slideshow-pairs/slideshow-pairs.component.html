@@ -1,0 +1,20 @@
+<ion-slides [options]="slideOpts" (ionSlideReachEnd)="cargarMasPaliculas()">
+  <ion-slide *ngFor="let peliculasPares of peliculas | pairs">
+    <ion-row>
+      <ion-col size="12" *ngFor="let pelicula of peliculasPares">
+
+        <ion-card class="slide-card">
+          <img [src]="pelicula.poster_path | imagen" class="poster">
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-slide>
+  
+  <ion-slide *ngIf="this.moviesSvc.dataCategories['popular'].loading" class="alide-loading">
+    <div>
+      <ion-spinner name="bubbles"></ion-spinner>
+      <p>Cargando...</p>
+    </div>
+  </ion-slide>
+</ion-slides>

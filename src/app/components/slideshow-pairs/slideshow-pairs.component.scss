@@ -1,0 +1,19 @@
+ion-col{
+    padding: 0;
+}
+
+.alide-loading{
+    height: 300px;
+    display: grid;
+    place-items: center;
+}
+
+.alide-loading ion-spinner{
+    color: #5f5f5f ;
+
+}
+.alide-loading p{
+    margin: 10px;
+    color: #5f5f5f;
+    font-size: 14px;
+}
