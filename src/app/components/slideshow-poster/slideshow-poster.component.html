@@ -1,8 +1,9 @@
 <ion-slides [options]="slideOpts" (ionSlideReachEnd)="cargarMasPeliculas()">
   <ion-slide *ngFor="let pelicula of peliculas">
-    <ion-card class="slide-card">
+    <!-- <ion-card class="slide-card">
       <img [src]="pelicula.poster_path | imagen" class="poster">
-    </ion-card>
+    </ion-card> -->
+    <app-slide-card [peliculaImg]="pelicula.poster_path" [idPelicula]="pelicula.id" class="poster"></app-slide-card>
   </ion-slide>
 
   <ion-slide *ngIf="loading" class="alide-loading">

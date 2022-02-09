@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RespuestaMDB } from '../interfaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, RespuestaCreditos } from '../interfaces/interfaces';
 import { environment } from '../../environments/environment';
 
-import { tap } from "rxjs/operators";
 
 const URL    = environment.url;
 const apiKey = environment.apiKey;
@@ -104,6 +103,21 @@ export class MoviesService {
     return this.ejecutarQuery<RespuestaMDB>( query );
   }
   
+  getMovieDetail( idMovie: number ){
+
+
+    const query = `/movie/${idMovie}?`;
+    
+    return this.ejecutarQuery<PeliculaDetalle>( query );
+  }
+
+  getMovieCredits( idMovie: number ){
+
+
+    const query = `/movie/${idMovie}/credits?`;
+    
+    return this.ejecutarQuery<RespuestaCreditos>( query );
+  }
 
 
 

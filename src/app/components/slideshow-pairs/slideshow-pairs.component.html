@@ -3,9 +3,10 @@
     <ion-row>
       <ion-col size="12" *ngFor="let pelicula of peliculasPares">
 
-        <ion-card class="slide-card">
-          <img [src]="pelicula.poster_path | imagen" class="poster">
-        </ion-card>
+        <!-- <ion-card class="slide-card poster">
+          <img [src]="pelicula.poster_path | imagen">
+        </ion-card> -->
+        <app-slide-card [peliculaImg]="pelicula.poster_path" [idPelicula]="pelicula.id" class="poster"></app-slide-card>
 
       </ion-col>
     </ion-row>
