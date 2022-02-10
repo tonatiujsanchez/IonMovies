@@ -23,6 +23,16 @@ export class MoviesService {
 
   constructor( private http: HttpClient ) { }
 
+  private ejecutarQuery<T>( query: string ){
+    
+    query = URL + query;
+    query += `api_key=${ apiKey }&language=es&include_image_language=es`;;
+    
+    return this.http.get<T>( query );
+  }
+
+
+
   getFeature(){
 
     const categoria = 'feature';
@@ -97,35 +107,31 @@ export class MoviesService {
     }
     this.dataCategories[categoria].page++;
 
-    
     const query = `/discover/movie?sort_by=popularity.desc&page=${ this.dataCategories[categoria].page }&`;
-    
     return this.ejecutarQuery<RespuestaMDB>( query );
   }
   
   getMovieDetail( idMovie: number ){
 
-
     const query = `/movie/${idMovie}?`;
-    
     return this.ejecutarQuery<PeliculaDetalle>( query );
   }
 
+
   getMovieCredits( idMovie: number ){
 
-
     const query = `/movie/${idMovie}/credits?`;
-    
     return this.ejecutarQuery<RespuestaCreditos>( query );
   }
 
 
+  searchMovies( textoBuscar: string ){
 
-  private ejecutarQuery<T>( query: string ){
-    
-    query = URL + query;
-    query += `api_key=${ apiKey }&language=es&include_image_language=es`;;
-    
-    return this.http.get<T>( query );
+    const query = `/search/movie?query=${ textoBuscar }&`;
+    return this.ejecutarQuery( query );
   }
+
+
+
+
 }
