@@ -1,21 +1,14 @@
+<app-header titulo="Movies App"></app-header>
+
 <ion-content [fullscreen]="true">
 
-  <!-- TODO: Agregar funcionalidad de cargar más a los Slides: Lanzamientos, Tendencias y Proximamente -->
-
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col>
-        <h3> Lanzamientos </h3>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
   <app-slideshow-backdrop [peliculas]="peliculasRecientes" (cargarMas)="cargarMas($event)"></app-slideshow-backdrop>
 
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <h3>Tendencias</h3>
+        <h3 class="titulo-categoria">Tendencias</h3>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -25,7 +18,7 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <h3> Pupulares </h3>
+        <h3 class="titulo-categoria">Pupulares </h3>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -35,7 +28,7 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <h3>Proximamente</h3>
+        <h3 class="titulo-categoria">Proximamente</h3>
       </ion-col>
     </ion-row>
   </ion-grid>

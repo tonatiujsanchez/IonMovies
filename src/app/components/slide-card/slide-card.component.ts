@@ -20,6 +20,7 @@ export class SlideCardComponent implements OnInit {
 
     const modal = await this.modalController.create({
       component: DetalleComponent,
+      mode:'ios',
       componentProps: {
         'id': this.idPelicula,
       }

@@ -94,7 +94,6 @@ export class Tab2Page {
         this.loading = false;
 
         this.peliculas = results;
-        console.log( this.peliculas );
       }
     );
     
@@ -104,6 +103,7 @@ export class Tab2Page {
 
       const modal = await this.modalController.create({
         component: DetalleComponent,
+        mode:'ios',
         componentProps: {
           id: idPelicula
         }

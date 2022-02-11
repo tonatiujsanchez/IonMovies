@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { MoviesService } from '../../services/movies.service';
 import { PeliculaDetalle, Cast } from '../../interfaces/interfaces';
+import { StorageService } from '../../services/storage.service';
+
 
 @Component({
   selector: 'app-detalle',
@@ -22,9 +24,21 @@ export class DetalleComponent implements OnInit {
     freeMode: true
   };
 
+
+  get getFavorito():boolean{
+
+    if( this.pelicula ){
+      return this.storageSvc.esPeliculaFavorita( this.pelicula );
+    }else{
+      return false;
+    }
+    
+  }
+
   constructor( 
     public modalController: ModalController,
-    private moviesSvc: MoviesService
+    private moviesSvc: MoviesService,
+    private storageSvc: StorageService
     ) { }
 
   ngOnInit() {    
@@ -39,10 +53,17 @@ export class DetalleComponent implements OnInit {
         this.actores = resp.cast;        
       }
     );
+    
   }
 
   salirDelModal(){
     this.modalController.dismiss();
   }
+
+  toggleFavorito(){
+    this.storageSvc.guardarPelicula( this.pelicula );
+  }
+
+
 
 }
