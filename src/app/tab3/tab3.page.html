@@ -1,11 +1,20 @@
 <app-header titulo="Favoritos"></app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+
+  <ng-container *ngIf="generos.length > 0">
+    <div *ngFor="let pelicula of peliculasFavoritas | peliculasGenero: generos">
+      
+      <ion-grid *ngIf="pelicula.pelis.length > 0">
+        <ion-row>
+          <ion-col><h3 class="titulo-categoria">{{ pelicula.genero }}</h3></ion-col>
+        </ion-row>
+        <app-slideshow-favorites [peliculas]="pelicula.pelis"></app-slideshow-favorites>
+      </ion-grid>
+    </div>
+  </ng-container>
+  
+  
+
 </ion-content>

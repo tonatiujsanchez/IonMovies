@@ -25,15 +25,7 @@ export class DetalleComponent implements OnInit {
   };
 
 
-  get getFavorito():boolean{
-
-    if( this.pelicula ){
-      return this.storageSvc.esPeliculaFavorita( this.pelicula );
-    }else{
-      return false;
-    }
-    
-  }
+  getFavorito: boolean = false;
 
   constructor( 
     public modalController: ModalController,
@@ -41,7 +33,8 @@ export class DetalleComponent implements OnInit {
     private storageSvc: StorageService
     ) { }
 
-  ngOnInit() {    
+  async ngOnInit() {  
+
     this.moviesSvc.getMovieDetail( this.id ).subscribe(
       resp => {
         this.pelicula = resp;        
@@ -53,6 +46,9 @@ export class DetalleComponent implements OnInit {
         this.actores = resp.cast;        
       }
     );
+
+
+    this.getFavorito = await this.storageSvc.esPeliculaFavorita( this.id );
     
   }
 
@@ -61,7 +57,9 @@ export class DetalleComponent implements OnInit {
   }
 
   toggleFavorito(){
-    this.storageSvc.guardarPelicula( this.pelicula );
+    this.storageSvc.guardarPelicula( this.pelicula ).then(
+      resp => this.getFavorito = resp
+    );
   }
 
 

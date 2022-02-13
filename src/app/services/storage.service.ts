@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { of, Observable } from 'rxjs';
 import { PeliculaDetalle } from '../interfaces/interfaces';
 
 @Injectable({
@@ -16,21 +17,20 @@ export class StorageService {
     private storage: Storage,
     public toastController: ToastController ) { 
 
-    this.init();
+    this.loadFavorites();
   }
 
 
-  async init() {
-    // If using, define drivers here: await this.storage.defineDriver(/*...*/);
+  async loadFavorites() {
     const storage = await this.storage.create();
     this._storage = storage;
 
-    this.loadFavoritos();
+    return await this.getFavorites();
   }
 
 
 
-  guardarPelicula( pelicula: PeliculaDetalle ){
+  async guardarPelicula( pelicula: PeliculaDetalle ){
 
     const existe = this.peliculas.find( peliculaLocal => peliculaLocal.id === pelicula.id  ); 
     let mensaje: string = '';
@@ -48,25 +48,30 @@ export class StorageService {
     }
     
     this._storage.set( 'ionmovies_peliculas', this.peliculas );
-
-    console.log( this.peliculas );
+  
+    return (existe) ? false : true;
   }
 
-  async loadFavoritos(){
-    try {
 
-      const peliculasStorage = await this._storage.get('ionmovies_peliculas');
-      this.peliculas = peliculasStorage || [];    
 
-    } catch (error) {
-      console.log('Hubo un error con el storage', error);
-    }
+   async getFavorites(){
 
+     const peliculasStorage:PeliculaDetalle[] = await this._storage.get('ionmovies_peliculas');
+     this.peliculas = peliculasStorage || [];   
+
+    return this.peliculas;
   }
 
-  esPeliculaFavorita( pelicula: PeliculaDetalle ):boolean{    
-    return this.peliculas.some( peliculaLocal => peliculaLocal.id === pelicula.id );
+
+  async esPeliculaFavorita( idPelicula: number ): Promise<boolean>{
+
+     const pelis:PeliculaDetalle[] = await this.loadFavorites();
+
+     const existe = pelis.some( peliculaLocal => peliculaLocal.id === idPelicula )
+     
+    return ( existe ) ? true: false;
   }
+
 
 
   async mostrarToast( mensaje: string ) {

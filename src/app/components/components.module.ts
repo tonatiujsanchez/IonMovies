@@ -10,6 +10,7 @@ import { SlideshowPairsComponent } from './slideshow-pairs/slideshow-pairs.compo
 import { DetalleComponent } from './detalle/detalle.component';
 import { SlideCardComponent } from './slide-card/slide-card.component';
 import { HeaderComponent } from './header/header.component';
+import { SlideshowFavoritesComponent } from './slideshow-favorites/slideshow-favorites.component';
 
 
 
@@ -18,6 +19,7 @@ import { HeaderComponent } from './header/header.component';
     SlideshowBackdropComponent,
     SlideshowPosterComponent,
     SlideshowPairsComponent,
+    SlideshowFavoritesComponent,
     SlideCardComponent,
     DetalleComponent,
     HeaderComponent
@@ -26,6 +28,7 @@ import { HeaderComponent } from './header/header.component';
     SlideshowBackdropComponent,
     SlideshowPosterComponent,
     SlideshowPairsComponent,
+    SlideshowFavoritesComponent,
     SlideCardComponent,
     DetalleComponent,
     HeaderComponent

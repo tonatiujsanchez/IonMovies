@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RespuestaMDB, PeliculaDetalle, RespuestaCreditos } from '../interfaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, RespuestaCreditos, Genre } from '../interfaces/interfaces';
 import { environment } from '../../environments/environment';
+
+import { map } from "rxjs/operators";
+import { Observable } from 'rxjs';
 
 
 const URL    = environment.url;
@@ -131,6 +134,20 @@ export class MoviesService {
     return this.ejecutarQuery( query );
   }
 
+  getGenders(): Promise<Genre[]>{
+
+
+    return new Promise( ( resolve, reject )=>{
+      
+      this.ejecutarQuery('/genre/movie/list?')
+      .subscribe(
+        (resp) =>{
+          resolve(resp['genres']);
+        }
+      );
+    });
+
+  }
 
 
 
